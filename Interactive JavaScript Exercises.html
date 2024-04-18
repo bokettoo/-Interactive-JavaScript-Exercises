@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Combined Exercises</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    /* Exercise 1 */
+    #genre select {
+      margin-top: 10px;
+    }
+
+    /* Exercise 2 */
+    main {
+      margin-bottom: 20px;
+    }
+    main button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Exercise 3 */
+    .pairs, .impairs {
+      display: inline-block;
+      width: 48%;
+      margin: 1%;
+      padding: 10px;
+      border: 1px solid black;
+    }
+
+    /* Exercise 4 */
+    #result img {
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+    }
+
+    /* Language Preferences */
+    .container {
+      display: flex;
+    }
+    .list {
+      margin: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 200px;
+    }
+  </style>
+  <script>
+    function f1() {
+      if (document.getElementById("femme").checked) {
+        let select = document.createElement("select");
+        let option1 = document.createElement("option");
+        option1.value = "mademoiselle";
+        option1.text = "Mademoiselle";
+        let option2 = document.createElement("option");
+        option2.value = "madame";
+        option2.text = "Madame";
+        select.appendChild(option1);
+        select.appendChild(option2);
+        document.getElementById("genre").appendChild(select);
+      } else {
+        document.getElementById("genre").innerHTML = "";
+      }
+    }
+
+    function f2() { document.body.style.backgroundColor = "yellow"; }
+    function f3() { document.body.style.backgroundColor = "red"; }
+    function f4() { document.body.style.backgroundColor = "green"; }
+    function f5() { document.body.style.backgroundColor = "black"; }
+
+    function ajouterNombre() {
+      let nombre = parseInt(document.getElementById("nombre").value);
+      let cible;
+      if (nombre % 2 === 0) {
+        cible = document.querySelector(".pairs");
+      } else if (nombre % 2 === 1) {
+        cible = document.querySelector(".impairs");
+      } else {
+        alert("Veuillez saisir un nombre valide.");
+        return;
+      }
+      let element = document.createElement("p");
+      element.textContent = nombre;
+      cible.appendChild(element);
+    }
+
+    function calculateModuleGrade() {
+      let moyC = parseFloat(document.getElementById("moyC").value);
+      let noteEFM = parseFloat(document.getElementById("noteEFM").value);
+      let moyenneModule = (moyC + noteEFM) / 3;
+      let appreciation;
+      let imageSrc;
+
+      if (moyenneModule < 7) {
+        appreciation = "Nul";
+        imageSrc = "face_with_symbols_on_mouth.png";
+      } else if (moyenneModule < 10) {
+        appreciation = "Insuffisant";
+        imageSrc = "disappointed.png";
+      } else if (moyenneModule < 12) {
+        appreciation = "Passable";
+        imageSrc = "neutral_face.png";
+      } else if (moyenneModule < 14) {
+        appreciation = "Assez bien";
+        imageSrc = "slightly_smiling_face.png";
+      } else if (moyenneModule < 16) {
+        appreciation = "Bien";
+        imageSrc = "smile.png";
+      } else {
+        appreciation = "Très bien";
+        imageSrc = "tada.png";
+      }
+
+      document.getElementById("result").innerHTML = `
+        ${moyenneModule.toFixed(2)} - 
+        <img src="${imageSrc}" alt="${appreciation}">
+      `;
+    }
+
+    function addLanguage() {
+      var newLanguage = document.getElementById("newLanguage").value;
+      var proposedList = document.getElementById("proposedLanguages");
+      var preferredList = document.getElementById("preferredLanguages");
+
+      for (var i = 0; i < proposedList.children.length; i++) {
+        if (proposedList.children[i].textContent === newLanguage) {
+          proposedList.removeChild(proposedList.children[i]);
+
+          var newListItem = document.createElement("li");
+          newListItem.textContent = newLanguage;
+          preferredList.appendChild(newListItem);
+          break;
+        }
+      }
+    }
+
+    function removeLanguage() {
+      var newLanguage = document.getElementById("newLanguage").value;
+      var proposedList = document.getElementById("proposedLanguages");
+      var preferredList = document.getElementById("preferredLanguages");
+
+      for (var i = 0; i < preferredList.children.length; i++) {
+        if (preferredList.children[i].textContent === newLanguage) {
+          preferredList.removeChild(preferredList.children[i]);
+
+          var newListItem = document.createElement("li");
+          newListItem.textContent = newLanguage;
+          proposedList.appendChild(newListItem);
+          break;
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Exercise 1 -->
+  <input type="radio" name="genre" id="femme" onclick="f1()"/> Femme
+  <input type="radio" name="genre"/> Homme
+  <div id="genre"></div>
+
+  <!-- Exercise 2 -->
+  <main>
+    <button onclick="f2()">Jaune</button>
+    <button onclick="f3()">Rouge</button>
+    <button onclick="f4()">Vert</button>
+    <button onclick="f5()">Noir</button>
+  </main>
+  <div>Modifier la couleur de l'arrière-plan</div>
+
+  <!-- Exercise 3 -->
+  <label for="nombre">Saisir un nombre:</label>
+  <input type="number" id="nombre">
+  <button onclick="ajouterNombre()">Ajouter</button>
+  <div class="pairs">Nombres pairs:</div>
+  <div class="impairs">Nombres impairs:</div>
+
+  <!-- Exercise 4 -->
+  <div>
+    Saisir la moyenne des contrôles (/20):
+    <input type="number" min="0" max="20" id="moyC"/>
+  </div>
+  <div>
+    Saisir la note de l'EFM (/40):
+    <input type="number" min="0" max="40" id="noteEFM"/>
+  </div>
+  <div>
+    <button onclick="calculateModuleGrade()">Note Module</button>
+    <span id="result"></span> 
+  </div> 
+
+  <div class="container">
+    <div class="list">
+      <h3>Les langages proposés</h3>
+      <ul id="proposedLanguages">
+        <li>C</li>
+        <li>C#</li>
+        <li>Python</li>
+        <li>JS</li>
+      </ul>
+    </div>
+  
+    <div class="list">
+      <h3>Vos préférences</h3>
+      <ul id="preferredLanguages">
+        <li>Java</li>
+      </ul>
+    </div>
+  </div>
+  
+  <input type="text" id="newLanguage" placeholder="Java">
+  <button onclick="addLanguage()">Ajouter</button>
+  <button onclick="removeLanguage()">Retirer</button>
+    </body>
+</html>
+
+
+
